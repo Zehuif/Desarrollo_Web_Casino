@@ -1,0 +1,85 @@
+<!--
+sudo systemctl start mongod
+-->
+
+<html>
+    <head>
+        <link rel="manifest" href="manifest.webmanifest">
+        <meta charset="utf-8">
+        <title>Casino</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="../style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+        <style>
+        .blink_me {
+            animation: blinker 1s linear infinite;
+          }
+          
+          @keyframes blinker {
+            50% {
+              opacity: 0;
+            }
+          }
+        </style>
+        
+    </head>
+
+    <body class="dg-dark">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">Ingrese</h1>
+                <div class="from-group">
+                    <input type="text" class="form-control mb-3 mr-sm-2" id="username" name="username" placeholder="Usuario">
+                </div>
+                <div class="from-group">
+                    <input type="password" class="form-control mb-3 mr-sm-2" id="password" name="password" placeholder="Contraseña">
+                </div>
+                <div class="from-group">
+                <strong class="text-white blink_me" id="error"></strong>
+                </div>
+                <div class="form mr-sm-2">
+                    <button type="submit" id="loginButton" class="btn btn-primary col-md-6 mb-3">Ingresar</button>
+                </div>
+                <div class="form mr-sm-2">
+                    <a href="register.htm" class="btn btn-success col-md-6 mb-3" role="button" aria-pressed="true">Registrarse</a>
+                </div>
+        </div>
+    <script>
+        $( "#loginButton" ).click(function() {
+
+            localStorage.setItem('username', $("#username").val());
+            localStorage.setItem('password', $("#password").val());
+            $.post( "https://casinoxd.tk/api/v1.0.php/login/"+localStorage.getItem('username'), 
+            { password: localStorage.getItem('password')}).done(function( data ) {
+                console.log(data);
+                if (data){
+                    window.location.href="home.htm";
+                } else {
+                    $("#error").html("Ususario o contraseña incorrecto.");
+                }
+            });
+        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/app/sw.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+            });
+        }
+    </script>
+
+
+    
+    </body>
+
+
+</html>

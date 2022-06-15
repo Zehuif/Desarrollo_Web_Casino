@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="esp">
+    <head>
+        <link rel="manifest" href="manifest.webmanifest">
+        <meta charset="utf-8">
+        <title>Casino</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="../style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+        <style>
+            .blink_me {
+                animation: blinker 1s linear infinite;
+                }
+                
+                @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
+                }
+        </style>
+    </head>
+<body class = "bg-dark">
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Registro</h1>
+    <div class="form-group row">
+        <div class="col-sm-4 col-form-label">
+            <label class ="text-light " for="validationTooltip01">Nombre</label>
+            <input id ="username" name="username" type="text" class="form-control" placeholder="Pepe" required>
+        </div>
+        <div class="col-sm-4 col-form-label">
+            <label class ="text-light" for="validationTooltip02">Email</label>
+            <input id ="email" name ="email" type="email" class="form-control" placeholder="pepe@gmail.com" required>
+        </div>
+        <div class="col-sm-4 col-form-label">
+            <label class ="text-light" for="validationTooltip02">Contraseña</label>
+            <input id ="password" name ="password" type="password" class="form-control" placeholder="" required>
+        </div>
+    </div>
+    <button class="btn btn-success col-md-6 mb-3" id="registerButton" type="submit">Registrarse</button>
+    <div class="from-group">
+        <strong class="text-white blink_me" id="error"></strong>
+    </div>
+  </div>
+</div>
+<script>
+
+$( "#registerButton" ).click(function() {
+    localStorage.setItem('username', $("#username").val());
+    localStorage.setItem('email', $("#email").val());
+    localStorage.setItem('password', $("#password").val());
+    if(localStorage.getItem('username') != "" && localStorage.getItem('email') != "" && localStorage.getItem('password') != ""){
+        $.post( "https://casinoxd.tk/api/v1.0.php/register/", { 
+            username: localStorage.getItem('username'), 
+            email: localStorage.getItem('email'), 
+            password: localStorage.getItem('password')})
+            .done(function( data ) {
+            console.log(data);
+            if (data){
+                window.location.href="index.htm";
+            } else {
+                $("#error").html("No registrado.");
+            }
+        });
+    }else $("#error").html("Error al registrar.");
+});
+
+
+</script>
+
+</body>
+</htm>
